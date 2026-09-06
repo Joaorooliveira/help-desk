@@ -37,12 +37,13 @@ public class Funcionario {
     @Column(nullable = false,length = 30)
     private SetorTipo setor;
 
-    @Column(name = "criado_em", nullable = false)
     @CreatedDate
+    @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;
 
-    @Column(name = "atualizado_em", nullable = false)
     @LastModifiedDate
+    @Column(name = "atualizado_em", nullable = false)
     private LocalDateTime atualizadoEm;
+
 
 }
