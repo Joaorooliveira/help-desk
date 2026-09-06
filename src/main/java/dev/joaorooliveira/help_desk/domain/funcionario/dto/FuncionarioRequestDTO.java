@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.funcionario.dto;
 
+import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.funcionario.SetorTipo;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -23,4 +24,17 @@ public record FuncionarioRequestDTO(
         SetorTipo setor
 
 ) {
+
+    public Funcionario toEntity(){
+        Funcionario funcionario = new Funcionario();
+        preencher(funcionario);
+        return funcionario;
+    }
+
+    private void preencher(Funcionario funcionario) {
+        funcionario.setNome(this.nome);
+        funcionario.setEmail(this.email);
+        funcionario.setRamal(this.ramal);
+        funcionario.setSetor(this.setor);
+    }
 }
