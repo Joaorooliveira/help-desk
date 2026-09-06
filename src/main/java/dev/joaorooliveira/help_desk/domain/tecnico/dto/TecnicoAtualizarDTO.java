@@ -3,8 +3,6 @@ package dev.joaorooliveira.help_desk.domain.tecnico.dto;
 import dev.joaorooliveira.help_desk.domain.tecnico.EspecialidadeTipo;
 import dev.joaorooliveira.help_desk.domain.tecnico.Tecnico;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record TecnicoAtualizarDTO(
