@@ -1,6 +1,9 @@
 package dev.joaorooliveira.help_desk.domain.funcionario;
 
+import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioRequestDTO;
+import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioResponseDTO;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class FuncionarioService {
@@ -10,4 +13,11 @@ public class FuncionarioService {
     public FuncionarioService(FuncionarioRepository funcionarioRepository) {
         this.funcionarioRepository = funcionarioRepository;
     }
+
+    @Transactional
+    public FuncionarioResponseDTO salvarFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) {
+        Funcionario funcionario = funcionarioRepository.save(funcionarioRequestDTO.toEntity());
+        return FuncionarioResponseDTO.fromEntity(funcionario);
+    }
+
 }
