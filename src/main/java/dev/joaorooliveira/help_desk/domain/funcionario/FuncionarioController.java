@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.funcionario;
 
+import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioAtualizarDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioRequestDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioResponseDTO;
@@ -48,6 +49,13 @@ public class FuncionarioController {
     @GetMapping("/{id}")
     public ResponseEntity<FuncionarioResponseDTO> buscarPorId(@PathVariable Long id) {
         FuncionarioResponseDTO funcionarioResponseDTO = funcionarioService.buscarFuncionarioPorId(id);
+        return ResponseEntity.ok(funcionarioResponseDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<FuncionarioResponseDTO> atualizar(@PathVariable Long id,
+                                                             @RequestBody @Valid FuncionarioAtualizarDTO funcionarioAtualizarDTO) {
+        FuncionarioResponseDTO funcionarioResponseDTO = funcionarioService.atualizarFuncionario(id, funcionarioAtualizarDTO);
         return ResponseEntity.ok(funcionarioResponseDTO);
     }
 
