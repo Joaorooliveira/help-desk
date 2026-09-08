@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.tecnico;
 
+import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoAtualizarDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoResponseDTO;
@@ -7,10 +8,7 @@ import dev.joaorooliveira.help_desk.infra.specification.TecnicoSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -47,6 +45,12 @@ public class TecnicoController {
     @GetMapping("/{id}")
     public ResponseEntity<TecnicoResponseDTO> buscarPorId(Long id) {
         TecnicoResponseDTO tecnicoResponseDTO = tecnicoService.buscarTecnicoPorId(id);
+        return ResponseEntity.ok(tecnicoResponseDTO);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<TecnicoResponseDTO> atualizar(@PathVariable Long id, TecnicoAtualizarDTO tecnicoAtualizarDTO) {
+        TecnicoResponseDTO tecnicoResponseDTO = tecnicoService.atualizarTecnico(id, tecnicoAtualizarDTO);
         return ResponseEntity.ok(tecnicoResponseDTO);
     }
 }
