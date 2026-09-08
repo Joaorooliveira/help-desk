@@ -1,4 +1,4 @@
-package dev.joaorooliveira.help_desk.domain.chamado;
+package dev.joaorooliveira.help_desk.domain.chamado.enums;
 
 public enum PrioridadeTipo {
     BAIXA,

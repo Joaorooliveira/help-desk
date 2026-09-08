@@ -1,5 +1,8 @@
 package dev.joaorooliveira.help_desk.domain.chamado;
 
+import dev.joaorooliveira.help_desk.domain.chamado.enums.CategoriaTipo;
+import dev.joaorooliveira.help_desk.domain.chamado.enums.PrioridadeTipo;
+import dev.joaorooliveira.help_desk.domain.chamado.enums.StatusTipo;
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.tecnico.Tecnico;
 import jakarta.persistence.*;

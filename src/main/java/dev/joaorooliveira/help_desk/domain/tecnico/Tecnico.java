@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.tecnico;
 
+import dev.joaorooliveira.help_desk.domain.tecnico.enums.EspecialidadeTipo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

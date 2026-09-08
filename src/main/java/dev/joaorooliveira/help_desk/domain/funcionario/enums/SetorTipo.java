@@ -1,4 +1,4 @@
-package dev.joaorooliveira.help_desk.domain.funcionario;
+package dev.joaorooliveira.help_desk.domain.funcionario.enums;
 
 public enum SetorTipo {
     TI,

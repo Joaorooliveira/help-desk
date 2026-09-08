@@ -1,4 +1,4 @@
-package dev.joaorooliveira.help_desk.domain.tecnico;
+package dev.joaorooliveira.help_desk.domain.tecnico.enums;
 
 public enum EspecialidadeTipo {
     HARDWARE,

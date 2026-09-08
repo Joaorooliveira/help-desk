@@ -1,10 +1,8 @@
 package dev.joaorooliveira.help_desk.domain.funcionario.dto;
 
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
-import dev.joaorooliveira.help_desk.domain.funcionario.SetorTipo;
+import dev.joaorooliveira.help_desk.domain.funcionario.enums.SetorTipo;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 public record FuncionarioAtualizarDTO(

@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.funcionario;
 
+import dev.joaorooliveira.help_desk.domain.funcionario.enums.SetorTipo;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
