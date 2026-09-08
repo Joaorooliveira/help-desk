@@ -43,4 +43,10 @@ public class TecnicoController {
         Page<TecnicoResponseDTO> tecnicos = tecnicoService.buscarTecnicos(pageable, filtro);
         return ResponseEntity.ok(tecnicos);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<TecnicoResponseDTO> buscarPorId(Long id) {
+        TecnicoResponseDTO tecnicoResponseDTO = tecnicoService.buscarTecnicoPorId(id);
+        return ResponseEntity.ok(tecnicoResponseDTO);
+    }
 }
