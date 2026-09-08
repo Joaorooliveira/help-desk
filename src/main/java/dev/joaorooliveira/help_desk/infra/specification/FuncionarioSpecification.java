@@ -7,7 +7,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 public class FuncionarioSpecification {
 
-    public Specification<Funcionario> comFiltros(FuncionarioFiltroRequestDTO filtro) {
+    public static Specification<Funcionario> comFiltros(FuncionarioFiltroRequestDTO filtro) {
         return Specification
                 .where(nomeContem(filtro.nome()))
                 .and(emailContem(filtro.email()))
@@ -15,7 +15,7 @@ public class FuncionarioSpecification {
                 .and(ramalContem(filtro.ramal()));
     }
 
-    private Specification<Funcionario> ramalContem(String ramal) {
+    private static Specification<Funcionario> ramalContem(String ramal) {
         return (root, query, cb) -> {
             if (ramal == null || ramal.isBlank()) {
                 return null;
@@ -24,7 +24,7 @@ public class FuncionarioSpecification {
         };
     }
 
-    private Specification<Funcionario> setorIgual(SetorTipo setor) {
+    private static Specification<Funcionario> setorIgual(SetorTipo setor) {
         return (root, query, cb) -> {
             if (setor == null) {
                 return null;
@@ -33,7 +33,7 @@ public class FuncionarioSpecification {
         };
     }
 
-    private Specification<Funcionario> emailContem(String email) {
+    private static Specification<Funcionario> emailContem(String email) {
         return (root, query, cb) -> {
             if (email == null || email.isBlank()) {
                 return null;
@@ -42,7 +42,7 @@ public class FuncionarioSpecification {
         };
     }
 
-    private Specification<Funcionario> nomeContem(String nome) {
+    private static Specification<Funcionario> nomeContem(String nome) {
         return (root, query, cb) -> {
             if (nome == null || nome.isBlank()) {
                 return null;
