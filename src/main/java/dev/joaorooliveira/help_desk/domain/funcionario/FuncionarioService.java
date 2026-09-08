@@ -27,6 +27,12 @@ public class FuncionarioService {
         return FuncionarioResponseDTO.fromEntity(funcionario);
     }
 
-
+    @Transactional
+    public void deletarFuncionario(Long id) {
+        if (!funcionarioRepository.existsById(id)) {
+            throw new EntidadeNaoEncontradaException("Funcionário não encontrado com o ID: " + id);
+        }
+        funcionarioRepository.deleteById(id);
+    }
 
 }
