@@ -1,8 +1,13 @@
 package dev.joaorooliveira.help_desk.domain.tecnico;
 
+import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoResponseDTO;
+import dev.joaorooliveira.help_desk.infra.specification.TecnicoSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,5 +36,11 @@ public class TecnicoController {
                 .buildAndExpand(tecnicoResponseDTO.id())
                 .toUri();
         return ResponseEntity.created(location).body(tecnicoResponseDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<TecnicoResponseDTO>> buscar(Pageable pageable, TecnicoFiltroRequestDTO filtro) {
+        Page<TecnicoResponseDTO> tecnicos = tecnicoService.buscarTecnicos(pageable, filtro);
+        return ResponseEntity.ok(tecnicos);
     }
 }
