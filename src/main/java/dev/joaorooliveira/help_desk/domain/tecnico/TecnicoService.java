@@ -1,9 +1,13 @@
 package dev.joaorooliveira.help_desk.domain.tecnico;
 
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoAtualizarDTO;
+import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoResponseDTO;
 import dev.joaorooliveira.help_desk.infra.exception.EntidadeNaoEncontradaException;
+import dev.joaorooliveira.help_desk.infra.specification.TecnicoSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +24,11 @@ public class TecnicoService {
     public TecnicoResponseDTO salvarTecnico(TecnicoRequestDTO tecnicoRequestDTO) {
         Tecnico tecnico = tecnicoRepository.save(tecnicoRequestDTO.toEntity());
         return TecnicoResponseDTO.fromEntity(tecnico);
+    }
+
+    public Page<TecnicoResponseDTO> buscarTecnico(Pageable pageable, TecnicoFiltroRequestDTO filtro) {
+        return tecnicoRepository.findAll(TecnicoSpecification.comFiltros(filtro), pageable)
+                .map(TecnicoResponseDTO::fromEntity);
     }
 
     public TecnicoResponseDTO buscarTecnicoPorId(Long id) {
