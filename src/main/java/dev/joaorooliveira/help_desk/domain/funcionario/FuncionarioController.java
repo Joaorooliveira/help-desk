@@ -1,13 +1,14 @@
 package dev.joaorooliveira.help_desk.domain.funcionario;
 
+import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioRequestDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
@@ -34,6 +35,14 @@ public class FuncionarioController {
                 .buildAndExpand(funcionarioResponseDTO.id())
                 .toUri();
         return ResponseEntity.created(location).body(funcionarioResponseDTO);
+    }
+
+    @GetMapping
+    public ResponseEntity<Page<FuncionarioResponseDTO>> buscar(@PageableDefault(size = 10) Pageable pageable,
+                                                               FuncionarioFiltroRequestDTO filtro) {
+
+        Page<FuncionarioResponseDTO> funcionarios = funcionarioService.buscarFuncionarios(pageable, filtro);
+        return ResponseEntity.ok(funcionarios);
     }
 
 
