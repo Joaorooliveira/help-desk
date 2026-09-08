@@ -26,7 +26,7 @@ public class TecnicoService {
         return TecnicoResponseDTO.fromEntity(tecnico);
     }
 
-    public Page<TecnicoResponseDTO> buscarTecnico(Pageable pageable, TecnicoFiltroRequestDTO filtro) {
+    public Page<TecnicoResponseDTO> buscarTecnicos(Pageable pageable, TecnicoFiltroRequestDTO filtro) {
         return tecnicoRepository.findAll(TecnicoSpecification.comFiltros(filtro), pageable)
                 .map(TecnicoResponseDTO::fromEntity);
     }
