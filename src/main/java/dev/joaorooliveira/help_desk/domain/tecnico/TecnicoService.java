@@ -26,4 +26,12 @@ public class TecnicoService {
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Técnico não encontrado com o ID: " + id));
         return TecnicoResponseDTO.fromEntity(tecnico);
     }
+
+    @Transactional
+    public void deletarTecnico(Long id) {
+        if (!tecnicoRepository.existsById(id)) {
+            throw new EntidadeNaoEncontradaException("Técnico não encontrado com o ID: " + id);
+        }
+        tecnicoRepository.deleteById(id);
+    }
 }
