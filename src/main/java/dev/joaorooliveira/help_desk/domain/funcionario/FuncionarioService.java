@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.funcionario;
 
+import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioAtualizarDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioRequestDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.dto.FuncionarioResponseDTO;
 import dev.joaorooliveira.help_desk.infra.exception.EntidadeNaoEncontradaException;
@@ -33,6 +34,14 @@ public class FuncionarioService {
             throw new EntidadeNaoEncontradaException("Funcionário não encontrado com o ID: " + id);
         }
         funcionarioRepository.deleteById(id);
+    }
+
+    @Transactional
+    public FuncionarioResponseDTO atualizarFuncionario(Long id , FuncionarioAtualizarDTO funcionarioAtualizarDTO) {
+        Funcionario funcionario = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Funcionário não encontrado com o ID: " + id));
+        funcionarioAtualizarDTO.preencher(funcionario);
+        return FuncionarioResponseDTO.fromEntity(funcionarioRepository.save(funcionario));
     }
 
 }
