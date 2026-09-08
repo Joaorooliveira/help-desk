@@ -45,5 +45,11 @@ public class FuncionarioController {
         return ResponseEntity.ok(funcionarios);
     }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<FuncionarioResponseDTO> buscarPorId(@PathVariable Long id) {
+        FuncionarioResponseDTO funcionarioResponseDTO = funcionarioService.buscarFuncionarioPorId(id);
+        return ResponseEntity.ok(funcionarioResponseDTO);
+    }
+
 
 }
