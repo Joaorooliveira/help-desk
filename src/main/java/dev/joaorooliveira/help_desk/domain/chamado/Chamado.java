@@ -45,7 +45,7 @@ public class Chamado {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false,length = 20)
-    private StatusTipo status;
+    private StatusTipo status = StatusTipo.ABERTO;
 
     @Column(columnDefinition = "TEXT")
     private String solucao;
