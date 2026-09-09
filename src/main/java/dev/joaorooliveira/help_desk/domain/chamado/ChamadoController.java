@@ -36,11 +36,18 @@ public class ChamadoController {
     }
 
     @GetMapping
-    public ResponseEntity<Page<ChamadoFuncionarioResponseDTO>> buscar(@PageableDefault(size = 10) Pageable pageable,
-                                                                      ChamadoFuncionarioFiltroRequestDTO filtro) {
-        Page<ChamadoFuncionarioResponseDTO> chamados = chamadoService.buscarChamadosFuncionario(pageable,filtro);
+    public ResponseEntity<Page<ChamadoFuncionarioResponseDTO>> buscarChamadosFuncionario(@PageableDefault(size = 10) Pageable pageable,
+                                                                                         ChamadoFuncionarioFiltroRequestDTO filtro) {
+        Page<ChamadoFuncionarioResponseDTO> chamados = chamadoService.buscarChamadosFuncionario(pageable, filtro);
 
         return ResponseEntity.ok(chamados);
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChamadoFuncionarioResponseDTO> buscarChamadoFuncionarioPorId(@PathVariable Long id) {
+        ChamadoFuncionarioResponseDTO chamado = chamadoService.buscarChamadoFuncionarioPorId(id);
+        return ResponseEntity.ok(chamado);
+    }
+
 
 }
