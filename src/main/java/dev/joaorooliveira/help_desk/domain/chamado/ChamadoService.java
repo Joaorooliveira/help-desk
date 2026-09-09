@@ -28,4 +28,11 @@ public class ChamadoService {
         chamadoRepository.save(chamado);
         return ChamadoFuncionarioResponseDTO.fromEntity(chamado);
     }
+
+    public ChamadoFuncionarioResponseDTO buscarChamadoPorId(Long id) {
+        Chamado chamado = chamadoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
+        return ChamadoFuncionarioResponseDTO.fromEntity(chamado);
+    }
+
 }
