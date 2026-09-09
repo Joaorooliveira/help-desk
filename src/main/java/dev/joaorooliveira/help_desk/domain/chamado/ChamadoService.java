@@ -1,8 +1,11 @@
 package dev.joaorooliveira.help_desk.domain.chamado;
 
 import dev.joaorooliveira.help_desk.domain.chamado.dto.*;
+import dev.joaorooliveira.help_desk.domain.chamado.enums.StatusTipo;
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.funcionario.FuncionarioRepository;
+import dev.joaorooliveira.help_desk.domain.tecnico.Tecnico;
+import dev.joaorooliveira.help_desk.domain.tecnico.TecnicoRepository;
 import dev.joaorooliveira.help_desk.infra.exception.EntidadeNaoEncontradaException;
 import dev.joaorooliveira.help_desk.infra.specification.ChamadoSpecification;
 import org.springframework.data.domain.Page;
@@ -15,10 +18,12 @@ public class ChamadoService {
 
     private final ChamadoRepository chamadoRepository;
     private final FuncionarioRepository funcionarioRepository;
+    private final TecnicoRepository tecnicoRepository;
 
-    public ChamadoService(ChamadoRepository chamadoRepository, FuncionarioRepository funcionarioRepository){
+    public ChamadoService(ChamadoRepository chamadoRepository, FuncionarioRepository funcionarioRepository, TecnicoRepository tecnicoRepository){
         this.chamadoRepository = chamadoRepository;
         this.funcionarioRepository = funcionarioRepository;
+        this.tecnicoRepository = tecnicoRepository;
     }
 
     @Transactional
@@ -32,13 +37,15 @@ public class ChamadoService {
     }
 
     // Listar chamados para Funcionario com filtros
-    public Page<ChamadoFuncionarioResponseDTO> buscarChamadosFuncionario(Pageable pageable, ChamadoFuncionarioFiltroRequestDTO filtro) {
+    public Page<ChamadoFuncionarioResponseDTO> buscarChamadosFuncionario(Pageable pageable,
+                                                                         ChamadoFuncionarioFiltroRequestDTO filtro) {
         return chamadoRepository.findAll(ChamadoSpecification.comFiltrosFuncionario(filtro), pageable)
                 .map(ChamadoFuncionarioResponseDTO::fromEntity);
     }
 
     // Listar chamados para Tecnico com filtros
-    public Page<ChamadoTecnicoResponseDTO> buscarChamadosTecnico(Pageable pageable, ChamadoTecnicoFiltroRequestDTO filtro) {
+    public Page<ChamadoTecnicoResponseDTO> buscarChamadosTecnico(Pageable pageable,
+                                                                 ChamadoTecnicoFiltroRequestDTO filtro) {
         return chamadoRepository.findAll(ChamadoSpecification.comFiltrosTecnico(filtro), pageable)
                 .map(ChamadoTecnicoResponseDTO::fromEntity);
     }
@@ -55,6 +62,16 @@ public class ChamadoService {
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
     }
 
+    // Criar Validacao do chamado
+    @Transactional
+    public ChamadoTecnicoResponseDTO assumirChamado(Long idTecnico,Long idChamado) {
+        Tecnico tecnico = tecnicoRepository.findById(idTecnico).orElseThrow(
+                () -> new EntidadeNaoEncontradaException("Tecnico não encontrado com o ID: " + idTecnico));
+        Chamado chamado = buscarChamadoPorId(idChamado);
+        chamado.setTecnico(tecnico);
+        chamado.setStatus(StatusTipo.EM_ANDAMENTO);
+        return ChamadoTecnicoResponseDTO.fromEntity(chamado);
+    }
 
 
     private Chamado buscarChamadoPorId(Long id) {
