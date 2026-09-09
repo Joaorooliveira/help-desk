@@ -3,6 +3,7 @@ package dev.joaorooliveira.help_desk.domain.chamado;
 import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoFuncionarioFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoFuncionarioResponseDTO;
 import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoRequestDTO;
+import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoTecnicoResponseDTO;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -46,6 +47,12 @@ public class ChamadoController {
     @GetMapping("/{id}")
     public ResponseEntity<ChamadoFuncionarioResponseDTO> buscarChamadoFuncionarioPorId(@PathVariable Long id) {
         ChamadoFuncionarioResponseDTO chamado = chamadoService.buscarChamadoFuncionarioPorId(id);
+        return ResponseEntity.ok(chamado);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ChamadoTecnicoResponseDTO> buscarChamadoTecnicoPorId(@PathVariable Long id) {
+        ChamadoTecnicoResponseDTO chamado = chamadoService.buscarChamadoTecnicoPorId(id);
         return ResponseEntity.ok(chamado);
     }
 
