@@ -1,9 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.chamado;
 
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoFuncionarioFiltroRequestDTO;
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoFuncionarioResponseDTO;
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoRequestDTO;
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoTecnicoResponseDTO;
+import dev.joaorooliveira.help_desk.domain.chamado.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -24,37 +21,70 @@ public class ChamadoController {
         this.chamadoService = chamadoService;
     }
 
+
     @PostMapping
-    public ResponseEntity<ChamadoFuncionarioResponseDTO> salvar(@RequestBody @Valid ChamadoRequestDTO chamadoRequestDTO) {
-        ChamadoFuncionarioResponseDTO responseDTO = chamadoService.salvarChamado(chamadoRequestDTO);
+    public ResponseEntity<ChamadoFuncionarioResponseDTO> salvar(
+            @RequestBody @Valid ChamadoRequestDTO chamadoRequestDTO) {
+
+        ChamadoFuncionarioResponseDTO responseDTO =
+                chamadoService.salvarChamado(chamadoRequestDTO);
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(responseDTO.id())
                 .toUri();
+
         return ResponseEntity.created(location).body(responseDTO);
     }
 
-    @GetMapping
-    public ResponseEntity<Page<ChamadoFuncionarioResponseDTO>> buscarChamadosFuncionario(@PageableDefault(size = 10) Pageable pageable,
-                                                                                         ChamadoFuncionarioFiltroRequestDTO filtro) {
-        Page<ChamadoFuncionarioResponseDTO> chamados = chamadoService.buscarChamadosFuncionario(pageable, filtro);
+
+    // Listar chamados para Funcionário
+    @GetMapping("/funcionario")
+    public ResponseEntity<Page<ChamadoFuncionarioResponseDTO>> buscarChamadosFuncionario(
+            @PageableDefault(size = 10) Pageable pageable,
+            ChamadoFuncionarioFiltroRequestDTO filtro) {
+
+        Page<ChamadoFuncionarioResponseDTO> chamados =
+                chamadoService.buscarChamadosFuncionario(pageable, filtro);
 
         return ResponseEntity.ok(chamados);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ChamadoFuncionarioResponseDTO> buscarChamadoFuncionarioPorId(@PathVariable Long id) {
-        ChamadoFuncionarioResponseDTO chamado = chamadoService.buscarChamadoFuncionarioPorId(id);
+
+    // Listar chamados para Técnico
+    @GetMapping("/tecnico")
+    public ResponseEntity<Page<ChamadoTecnicoResponseDTO>> buscarChamadosTecnico(
+            @PageableDefault(size = 10) Pageable pageable,
+            ChamadoTecnicoFiltroRequestDTO filtro) {
+
+        Page<ChamadoTecnicoResponseDTO> chamados =
+                chamadoService.buscarChamadosTecnico(pageable, filtro);
+
+        return ResponseEntity.ok(chamados);
+    }
+
+
+    // Buscar chamado por ID para Funcionário
+    @GetMapping("/funcionario/{id}")
+    public ResponseEntity<ChamadoFuncionarioResponseDTO> buscarChamadoFuncionarioPorId(
+            @PathVariable Long id) {
+
+        ChamadoFuncionarioResponseDTO chamado =
+                chamadoService.buscarChamadoFuncionarioPorId(id);
+
         return ResponseEntity.ok(chamado);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ChamadoTecnicoResponseDTO> buscarChamadoTecnicoPorId(@PathVariable Long id) {
-        ChamadoTecnicoResponseDTO chamado = chamadoService.buscarChamadoTecnicoPorId(id);
+
+    // Buscar chamado por ID para Técnico
+    @GetMapping("/tecnico/{id}")
+    public ResponseEntity<ChamadoTecnicoResponseDTO> buscarChamadoTecnicoPorId(
+            @PathVariable Long id) {
+
+        ChamadoTecnicoResponseDTO chamado =
+                chamadoService.buscarChamadoTecnicoPorId(id);
+
         return ResponseEntity.ok(chamado);
     }
-
-
 }
