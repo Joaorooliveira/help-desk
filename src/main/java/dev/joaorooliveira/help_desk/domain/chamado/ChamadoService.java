@@ -32,16 +32,21 @@ public class ChamadoService {
 
     // Buscar para o Funcionario
     public ChamadoFuncionarioResponseDTO buscarChamadoFuncionarioPorId(Long id) {
-        Chamado chamado = chamadoRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
+        Chamado chamado = buscarChamadoPorId(id);
         return ChamadoFuncionarioResponseDTO.fromEntity(chamado);
     }
 
     // Buscar para o Tecnico
     public ChamadoTecnicoResponseDTO buscarChamadoTecnicoPorId(Long id) {
-        Chamado chamado = chamadoRepository.findById(id)
-                .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
+        Chamado chamado = buscarChamadoPorId(id);
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
+    }
+
+
+
+    private Chamado buscarChamadoPorId(Long id) {
+        return chamadoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
     }
 
 }
