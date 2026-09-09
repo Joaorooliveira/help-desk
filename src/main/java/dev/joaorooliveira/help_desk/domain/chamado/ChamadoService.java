@@ -2,6 +2,7 @@ package dev.joaorooliveira.help_desk.domain.chamado;
 
 import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoFuncionarioResponseDTO;
 import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoRequestDTO;
+import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoTecnicoResponseDTO;
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.funcionario.FuncionarioRepository;
 import dev.joaorooliveira.help_desk.infra.exception.EntidadeNaoEncontradaException;
@@ -29,10 +30,18 @@ public class ChamadoService {
         return ChamadoFuncionarioResponseDTO.fromEntity(chamado);
     }
 
-    public ChamadoFuncionarioResponseDTO buscarChamadoPorId(Long id) {
+    // Buscar para o Funcionario
+    public ChamadoFuncionarioResponseDTO buscarChamadoFuncionarioPorId(Long id) {
         Chamado chamado = chamadoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
         return ChamadoFuncionarioResponseDTO.fromEntity(chamado);
+    }
+
+    // Buscar para o Tecnico
+    public ChamadoTecnicoResponseDTO buscarChamadoTecnicoPorId(Long id) {
+        Chamado chamado = chamadoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
+        return ChamadoTecnicoResponseDTO.fromEntity(chamado);
     }
 
 }
