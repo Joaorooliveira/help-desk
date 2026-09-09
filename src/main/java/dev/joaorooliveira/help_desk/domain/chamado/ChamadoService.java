@@ -48,5 +48,4 @@ public class ChamadoService {
         return chamadoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
     }
-
 }
