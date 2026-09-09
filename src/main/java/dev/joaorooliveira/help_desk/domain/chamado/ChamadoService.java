@@ -1,11 +1,12 @@
 package dev.joaorooliveira.help_desk.domain.chamado;
 
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoFuncionarioResponseDTO;
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoRequestDTO;
-import dev.joaorooliveira.help_desk.domain.chamado.dto.ChamadoTecnicoResponseDTO;
+import dev.joaorooliveira.help_desk.domain.chamado.dto.*;
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.funcionario.FuncionarioRepository;
 import dev.joaorooliveira.help_desk.infra.exception.EntidadeNaoEncontradaException;
+import dev.joaorooliveira.help_desk.infra.specification.ChamadoSpecification;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +29,18 @@ public class ChamadoService {
         Chamado chamado = chamadoRequestDTO.toEntity(funcionario);
         chamadoRepository.save(chamado);
         return ChamadoFuncionarioResponseDTO.fromEntity(chamado);
+    }
+
+    // Listar chamados para Funcionario com filtros
+    public Page<ChamadoFuncionarioResponseDTO> buscarChamadosFuncionario(Pageable pageable, ChamadoFuncionarioFiltroRequestDTO filtro) {
+        return chamadoRepository.findAll(ChamadoSpecification.comFiltrosFuncionario(filtro), pageable)
+                .map(ChamadoFuncionarioResponseDTO::fromEntity);
+    }
+
+    // Listar chamados para Tecnico com filtros
+    public Page<ChamadoTecnicoResponseDTO> buscarChamadosTecnico(Pageable pageable, ChamadoTecnicoFiltroRequestDTO filtro) {
+        return chamadoRepository.findAll(ChamadoSpecification.comFiltrosTecnico(filtro), pageable)
+                .map(ChamadoTecnicoResponseDTO::fromEntity);
     }
 
     // Buscar para o Funcionario
