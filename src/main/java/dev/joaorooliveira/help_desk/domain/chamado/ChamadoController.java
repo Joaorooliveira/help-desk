@@ -96,4 +96,11 @@ public class ChamadoController {
         return ResponseEntity.ok(responseDTO);
     }
 
+    @PostMapping("/{idChamado}/concluir")
+    public ResponseEntity<ChamadoTecnicoResponseDTO> concluirChamado(@PathVariable Long idChamado,
+                                                                     @RequestBody @Valid ConcluirChamadoDTO dto){
+        ChamadoTecnicoResponseDTO responseDTO = chamadoService.concluirChamado(idChamado, dto);
+        return ResponseEntity.ok(responseDTO);
+    }
+
 }
