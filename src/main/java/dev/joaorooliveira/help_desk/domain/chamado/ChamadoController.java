@@ -21,7 +21,6 @@ public class ChamadoController {
         this.chamadoService = chamadoService;
     }
 
-
     @PostMapping
     public ResponseEntity<ChamadoFuncionarioResponseDTO> salvar(
             @RequestBody @Valid ChamadoRequestDTO chamadoRequestDTO) {
@@ -38,7 +37,6 @@ public class ChamadoController {
         return ResponseEntity.created(location).body(responseDTO);
     }
 
-
     // Listar chamados para Funcionário
     @GetMapping("/funcionario")
     public ResponseEntity<Page<ChamadoFuncionarioResponseDTO>> buscarChamadosFuncionario(
@@ -50,7 +48,6 @@ public class ChamadoController {
 
         return ResponseEntity.ok(chamados);
     }
-
 
     // Listar chamados para Técnico
     @GetMapping("/tecnico")
@@ -64,7 +61,6 @@ public class ChamadoController {
         return ResponseEntity.ok(chamados);
     }
 
-
     // Buscar chamado por ID para Funcionário
     @GetMapping("/funcionario/{id}")
     public ResponseEntity<ChamadoFuncionarioResponseDTO> buscarChamadoFuncionarioPorId(
@@ -75,7 +71,6 @@ public class ChamadoController {
 
         return ResponseEntity.ok(chamado);
     }
-
 
     // Buscar chamado por ID para Técnico
     @GetMapping("/tecnico/{id}")
