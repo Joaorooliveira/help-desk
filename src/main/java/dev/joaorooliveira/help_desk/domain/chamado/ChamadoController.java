@@ -87,4 +87,13 @@ public class ChamadoController {
 
         return ResponseEntity.ok(chamado);
     }
+
+    @PostMapping("/{idChamado}/assumir")
+    public ResponseEntity<ChamadoTecnicoResponseDTO> assumirChamado(@PathVariable Long idChamado,
+                                                                    @RequestBody Long idTecnico) {
+        ChamadoTecnicoResponseDTO responseDTO = chamadoService.assumirChamado(idTecnico, idChamado );
+
+        return ResponseEntity.ok(responseDTO);
+    }
+
 }
