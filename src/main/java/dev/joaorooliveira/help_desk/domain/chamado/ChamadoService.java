@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 @Service
 public class ChamadoService {
 
@@ -70,6 +72,19 @@ public class ChamadoService {
         Chamado chamado = buscarChamadoPorId(idChamado);
         chamado.setTecnico(tecnico);
         chamado.setStatus(StatusTipo.EM_ANDAMENTO);
+        return ChamadoTecnicoResponseDTO.fromEntity(chamado);
+    }
+
+    //Criar Validacao do chamado
+    @Transactional
+    public ChamadoTecnicoResponseDTO concluirChamado(Long idChamado,ConcluirChamadoDTO dto){
+        Tecnico tecnico = tecnicoRepository.findById(dto.idTecnico()).orElseThrow(
+                ()-> new EntidadeNaoEncontradaException("Tecnico não encontrado com o ID: " + dto.idTecnico()));
+        //Falta Validar o Tecnico
+        Chamado chamado = buscarChamadoPorId(idChamado);
+        chamado.setStatus(StatusTipo.CONCLUIDO);
+        chamado.setSolucao(dto.solucao());
+        chamado.setDataConclusao(LocalDateTime.now());
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
     }
 
