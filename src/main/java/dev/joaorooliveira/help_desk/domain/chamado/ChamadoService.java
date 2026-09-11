@@ -3,6 +3,7 @@ package dev.joaorooliveira.help_desk.domain.chamado;
 import dev.joaorooliveira.help_desk.domain.chamado.dto.*;
 import dev.joaorooliveira.help_desk.domain.chamado.enums.StatusTipo;
 import dev.joaorooliveira.help_desk.domain.chamado.validacoes.assumir.ValidadorAssumirChamado;
+import dev.joaorooliveira.help_desk.domain.chamado.validacoes.concluir.ValidadorConcluirChamado;
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.funcionario.FuncionarioRepository;
 import dev.joaorooliveira.help_desk.domain.tecnico.Tecnico;
@@ -23,13 +24,15 @@ public class ChamadoService {
     private final ChamadoRepository chamadoRepository;
     private final FuncionarioRepository funcionarioRepository;
     private final TecnicoRepository tecnicoRepository;
-    private final List<ValidadorAssumirChamado> validadores;
+    private final List<ValidadorAssumirChamado> validadoresAssumirChamado;
+    private final List<ValidadorConcluirChamado> validadoresConcluirChamado;
 
-    public ChamadoService(ChamadoRepository chamadoRepository, FuncionarioRepository funcionarioRepository, TecnicoRepository tecnicoRepository, List<ValidadorAssumirChamado> validadores){
+    public ChamadoService(ChamadoRepository chamadoRepository, FuncionarioRepository funcionarioRepository, TecnicoRepository tecnicoRepository, List<ValidadorAssumirChamado> validadoresAssumirChamado, List<ValidadorConcluirChamado> validadoresConcluirChamado){
         this.chamadoRepository = chamadoRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.tecnicoRepository = tecnicoRepository;
-        this.validadores = validadores;
+        this.validadoresAssumirChamado = validadoresAssumirChamado;
+        this.validadoresConcluirChamado = validadoresConcluirChamado;
     }
 
     @Transactional
@@ -68,22 +71,23 @@ public class ChamadoService {
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
     }
 
+    // Assumir Chamado
     @Transactional
     public ChamadoTecnicoResponseDTO assumirChamado(Long idTecnico,Long idChamado) {
         Tecnico tecnico = buscarTecnicoPorId(idTecnico);
         Chamado chamado = buscarChamadoPorId(idChamado);
-        validadores.forEach(v ->v.validar(chamado,idTecnico));
+        validadoresAssumirChamado.forEach(v ->v.validar(chamado,idTecnico));
         chamado.setTecnico(tecnico);
         chamado.setStatus(StatusTipo.EM_ANDAMENTO);
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
     }
 
-    //Criar Validacao do chamado
+    //Concluir Chamado
     @Transactional
     public ChamadoTecnicoResponseDTO concluirChamado(Long idChamado,ConcluirChamadoDTO dto){
         Tecnico tecnico = buscarTecnicoPorId(dto.idTecnico());
-        //Falta Validar o Tecnico
         Chamado chamado = buscarChamadoPorId(idChamado);
+        validadoresConcluirChamado.forEach(v -> v.validar(chamado,tecnico));
         chamado.setStatus(StatusTipo.CONCLUIDO);
         chamado.setSolucao(dto.solucao());
         chamado.setDataConclusao(LocalDateTime.now());
