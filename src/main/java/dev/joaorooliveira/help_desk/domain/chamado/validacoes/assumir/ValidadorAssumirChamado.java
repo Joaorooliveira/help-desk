@@ -1,6 +1,8 @@
 package dev.joaorooliveira.help_desk.domain.chamado.validacoes.assumir;
 
+import dev.joaorooliveira.help_desk.domain.chamado.Chamado;
+
 public interface ValidadorAssumirChamado {
 
-    void validar(Long idTecnico,Long idChamado);
+    void validar(Chamado chamado, Long idTecnico);
 }
