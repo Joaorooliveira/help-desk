@@ -2,6 +2,7 @@ package dev.joaorooliveira.help_desk.domain.chamado;
 
 import dev.joaorooliveira.help_desk.domain.chamado.dto.*;
 import dev.joaorooliveira.help_desk.domain.chamado.enums.StatusTipo;
+import dev.joaorooliveira.help_desk.domain.chamado.validacoes.assumir.ValidadorAssumirChamado;
 import dev.joaorooliveira.help_desk.domain.funcionario.Funcionario;
 import dev.joaorooliveira.help_desk.domain.funcionario.FuncionarioRepository;
 import dev.joaorooliveira.help_desk.domain.tecnico.Tecnico;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Service
 public class ChamadoService {
@@ -21,11 +23,13 @@ public class ChamadoService {
     private final ChamadoRepository chamadoRepository;
     private final FuncionarioRepository funcionarioRepository;
     private final TecnicoRepository tecnicoRepository;
+    private final List<ValidadorAssumirChamado> validadores;
 
-    public ChamadoService(ChamadoRepository chamadoRepository, FuncionarioRepository funcionarioRepository, TecnicoRepository tecnicoRepository){
+    public ChamadoService(ChamadoRepository chamadoRepository, FuncionarioRepository funcionarioRepository, TecnicoRepository tecnicoRepository, List<ValidadorAssumirChamado> validadores){
         this.chamadoRepository = chamadoRepository;
         this.funcionarioRepository = funcionarioRepository;
         this.tecnicoRepository = tecnicoRepository;
+        this.validadores = validadores;
     }
 
     @Transactional
@@ -70,6 +74,7 @@ public class ChamadoService {
         Tecnico tecnico = tecnicoRepository.findById(idTecnico).orElseThrow(
                 () -> new EntidadeNaoEncontradaException("Tecnico não encontrado com o ID: " + idTecnico));
         Chamado chamado = buscarChamadoPorId(idChamado);
+        validadores.forEach(v ->v.validar(chamado,idTecnico));
         chamado.setTecnico(tecnico);
         chamado.setStatus(StatusTipo.EM_ANDAMENTO);
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
