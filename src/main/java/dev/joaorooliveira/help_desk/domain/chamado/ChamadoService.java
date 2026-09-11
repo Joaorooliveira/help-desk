@@ -68,11 +68,9 @@ public class ChamadoService {
         return ChamadoTecnicoResponseDTO.fromEntity(chamado);
     }
 
-    // Criar Validacao do chamado
     @Transactional
     public ChamadoTecnicoResponseDTO assumirChamado(Long idTecnico,Long idChamado) {
-        Tecnico tecnico = tecnicoRepository.findById(idTecnico).orElseThrow(
-                () -> new EntidadeNaoEncontradaException("Tecnico não encontrado com o ID: " + idTecnico));
+        Tecnico tecnico = buscarTecnicoPorId(idTecnico);
         Chamado chamado = buscarChamadoPorId(idChamado);
         validadores.forEach(v ->v.validar(chamado,idTecnico));
         chamado.setTecnico(tecnico);
@@ -83,8 +81,7 @@ public class ChamadoService {
     //Criar Validacao do chamado
     @Transactional
     public ChamadoTecnicoResponseDTO concluirChamado(Long idChamado,ConcluirChamadoDTO dto){
-        Tecnico tecnico = tecnicoRepository.findById(dto.idTecnico()).orElseThrow(
-                ()-> new EntidadeNaoEncontradaException("Tecnico não encontrado com o ID: " + dto.idTecnico()));
+        Tecnico tecnico = buscarTecnicoPorId(dto.idTecnico());
         //Falta Validar o Tecnico
         Chamado chamado = buscarChamadoPorId(idChamado);
         chamado.setStatus(StatusTipo.CONCLUIDO);
@@ -97,5 +94,10 @@ public class ChamadoService {
     private Chamado buscarChamadoPorId(Long id) {
         return chamadoRepository.findById(id)
                 .orElseThrow(() -> new EntidadeNaoEncontradaException("Chamado não encontrado com o ID: " + id));
+    }
+
+    private Tecnico buscarTecnicoPorId(Long id){
+        return tecnicoRepository.findById(id)
+                .orElseThrow(() -> new EntidadeNaoEncontradaException("Tecnico não encontrado com o ID: " + id));
     }
 }
