@@ -53,7 +53,6 @@ public class FuncionarioService {
         funcionarioRepository.deleteById(id);
     }
 
-
     @Transactional
     public FuncionarioResponseDTO atualizarFuncionario(Long id , FuncionarioAtualizarDTO funcionarioAtualizarDTO) {
         Funcionario funcionario = funcionarioRepository.findById(id)

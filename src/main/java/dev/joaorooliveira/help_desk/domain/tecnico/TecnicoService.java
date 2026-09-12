@@ -1,10 +1,12 @@
 package dev.joaorooliveira.help_desk.domain.tecnico;
 
+import dev.joaorooliveira.help_desk.domain.chamado.ChamadoRepository;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoAtualizarDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoFiltroRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoRequestDTO;
 import dev.joaorooliveira.help_desk.domain.tecnico.dto.TecnicoResponseDTO;
 import dev.joaorooliveira.help_desk.infra.exception.EntidadeNaoEncontradaException;
+import dev.joaorooliveira.help_desk.infra.exception.RegraNegocioException;
 import dev.joaorooliveira.help_desk.infra.specification.TecnicoSpecification;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,9 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class TecnicoService {
 
     private final TecnicoRepository tecnicoRepository;
+    private final ChamadoRepository chamadoRepository;
 
-    public TecnicoService(TecnicoRepository tecnicoRepository) {
+    public TecnicoService(TecnicoRepository tecnicoRepository, ChamadoRepository chamadoRepository) {
         this.tecnicoRepository = tecnicoRepository;
+        this.chamadoRepository = chamadoRepository;
     }
 
     @Transactional
@@ -37,11 +41,13 @@ public class TecnicoService {
         return TecnicoResponseDTO.fromEntity(tecnico);
     }
 
-    // Lembrar de validar se o tecnico nao tem chamados associados antes de deletar
     @Transactional
     public void deletarTecnico(Long id) {
         if (!tecnicoRepository.existsById(id)) {
             throw new EntidadeNaoEncontradaException("Técnico não encontrado com o ID: " + id);
+        }
+        if(chamadoRepository.existsByTecnicoId(id)){
+            throw new RegraNegocioException("Não é possível excluir o funcionário, pois existem chamados associados a ele");
         }
         tecnicoRepository.deleteById(id);
     }
