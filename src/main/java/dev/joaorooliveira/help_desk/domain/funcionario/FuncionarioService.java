@@ -26,6 +26,9 @@ public class FuncionarioService {
 
     @Transactional
     public FuncionarioResponseDTO salvarFuncionario(FuncionarioRequestDTO funcionarioRequestDTO) {
+        if(chamadoRepository.existsByEmail(funcionarioRequestDTO.email())){
+
+        }
         Funcionario funcionario = funcionarioRepository.save(funcionarioRequestDTO.toEntity());
         return FuncionarioResponseDTO.fromEntity(funcionario);
     }
