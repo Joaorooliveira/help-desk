@@ -5,4 +5,6 @@ import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 public interface ChamadoRepository extends JpaRepository<Chamado, Long> , JpaSpecificationExecutor<Chamado> {
     boolean existsByFuncionarioId(Long funcionarioId);
+
+    boolean existsByTecnicoId(Long idTecnico);
 }
