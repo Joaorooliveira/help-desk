@@ -1,6 +1,7 @@
 package dev.joaorooliveira.help_desk.domain.relatorio;
 
 import dev.joaorooliveira.help_desk.projection.ChamadoPorPrioridadeProjection;
+import dev.joaorooliveira.help_desk.projection.ChamadoPorStatusProjection;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,5 +17,8 @@ public class RelatorioChamadoService {
     public List<ChamadoPorPrioridadeProjection> buscarChamadoPorPrioridade(){
         return relatorioChamadoRepository.chamadoPorPrioridade();
     }
+
+    public List<ChamadoPorStatusProjection> buscarChamadoPorStatus(){
+        return relatorioChamadoRepository.chamadoPorStatus();
+    }
 }
-git
