@@ -1,9 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.relatorio;
 
-import dev.joaorooliveira.help_desk.projection.ChamadoPorCategoriaProjection;
-import dev.joaorooliveira.help_desk.projection.ChamadoPorPrioridadeProjection;
-import dev.joaorooliveira.help_desk.projection.ChamadoPorStatusProjection;
-import dev.joaorooliveira.help_desk.projection.ChamadoPorTecnicoProjection;
+import dev.joaorooliveira.help_desk.projection.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -39,5 +36,10 @@ public class RelatorioChamadoController {
     @GetMapping("/chamados/por-tecnico")
     public ResponseEntity<List<ChamadoPorTecnicoProjection>> chamadoPorTecnico(){
         return ResponseEntity.ok(relatorioChamadoService.buscarChamadoPorTecnico());
+    }
+
+    @GetMapping("/chamados/por-setor")
+    public ResponseEntity<List<ChamadoPorSetorProjection>> chamadoPorSetor(){
+        return ResponseEntity.ok(relatorioChamadoService.buscarChamadoPorSetor());
     }
 }
