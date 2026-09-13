@@ -1,5 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.chamado;
 
+import dev.joaorooliveira.help_desk.projection.ChamadoPorCategoriaProjection;
 import dev.joaorooliveira.help_desk.projection.ChamadoPorPrioridadeProjection;
 import dev.joaorooliveira.help_desk.projection.ChamadoPorStatusProjection;
 import org.springframework.data.jpa.repository.Query;
@@ -33,5 +34,17 @@ public interface RelatorioChamadoRepository extends Repository<Chamado, Long> {
             nativeQuery = true
     )
     List<ChamadoPorStatusProjection> chamadoPorStatus();
+
+    @Query(
+            value = """
+                    SELECT
+                        categoria,
+                        COUNT(*) AS total
+                    FROM chamado
+                    GROUP BY CATEGORIA;
+                    """,
+            nativeQuery = true
+    )
+    List<ChamadoPorCategoriaProjection> chamadoPorCategoria();
 
 }
