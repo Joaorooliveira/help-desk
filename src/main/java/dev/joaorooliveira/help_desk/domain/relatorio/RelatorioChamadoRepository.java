@@ -1,5 +1,6 @@
-package dev.joaorooliveira.help_desk.domain.chamado;
+package dev.joaorooliveira.help_desk.domain.relatorio;
 
+import dev.joaorooliveira.help_desk.domain.chamado.Chamado;
 import dev.joaorooliveira.help_desk.projection.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
