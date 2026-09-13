@@ -1,6 +1,7 @@
 package dev.joaorooliveira.help_desk.domain.relatorio;
 
 import dev.joaorooliveira.help_desk.projection.ChamadoPorPrioridadeProjection;
+import dev.joaorooliveira.help_desk.projection.ChamadoPorStatusProjection;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,11 @@ public class RelatorioChamadoController {
 
     @GetMapping("/chamados/por-prioridade")
     public ResponseEntity<List<ChamadoPorPrioridadeProjection>> chamadoPorPrioridade(){
-        return ResponseEntity.ok(relatorioChamadoService.chamadoPorPrioridade());
+        return ResponseEntity.ok(relatorioChamadoService.buscarChamadoPorPrioridade());
+    }
+
+    @GetMapping("/chamados/por-prioridade")
+    public ResponseEntity<List<ChamadoPorStatusProjection>> chamadoPorStatus(){
+        return ResponseEntity.ok(relatorioChamadoService.buscarChamadoPorStatus());
     }
 }
