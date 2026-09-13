@@ -1,9 +1,6 @@
 package dev.joaorooliveira.help_desk.domain.chamado;
 
-import dev.joaorooliveira.help_desk.projection.ChamadoPorCategoriaProjection;
-import dev.joaorooliveira.help_desk.projection.ChamadoPorPrioridadeProjection;
-import dev.joaorooliveira.help_desk.projection.ChamadoPorStatusProjection;
-import dev.joaorooliveira.help_desk.projection.ChamadoPorTecnicoProjection;
+import dev.joaorooliveira.help_desk.projection.*;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
@@ -62,4 +59,19 @@ public interface RelatorioChamadoRepository extends Repository<Chamado, Long> {
             nativeQuery = true
     )
     List<ChamadoPorTecnicoProjection> chamadoPorTecnico();
+
+
+    @Query(
+            value = """
+                    SELECT
+                        f.setor,
+                        COUNT(c.id) AS total
+                    FROM funcionario f
+                    LEFT JOIN chamado c
+                        ON c.funcionario_id = f.id
+                    GROUP BY f.setor
+                    """,
+            nativeQuery = true
+    )
+    List<ChamadoPorSetorProjection> chamadoPorSetor();
 }
