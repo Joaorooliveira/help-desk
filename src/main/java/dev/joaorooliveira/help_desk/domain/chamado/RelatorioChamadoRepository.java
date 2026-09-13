@@ -3,6 +3,7 @@ package dev.joaorooliveira.help_desk.domain.chamado;
 import dev.joaorooliveira.help_desk.projection.ChamadoPorCategoriaProjection;
 import dev.joaorooliveira.help_desk.projection.ChamadoPorPrioridadeProjection;
 import dev.joaorooliveira.help_desk.projection.ChamadoPorStatusProjection;
+import dev.joaorooliveira.help_desk.projection.ChamadoPorTecnicoProjection;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 
@@ -29,7 +30,7 @@ public interface RelatorioChamadoRepository extends Repository<Chamado, Long> {
                         status,
                         COUNT(*) AS total
                      FROM chamado
-                     GROUP BY status;
+                     GROUP BY status
                     """,
             nativeQuery = true
     )
@@ -41,10 +42,24 @@ public interface RelatorioChamadoRepository extends Repository<Chamado, Long> {
                         categoria,
                         COUNT(*) AS total
                     FROM chamado
-                    GROUP BY CATEGORIA;
+                    GROUP BY categoria
                     """,
             nativeQuery = true
     )
     List<ChamadoPorCategoriaProjection> chamadoPorCategoria();
 
+
+    @Query(
+            value = """
+                    SELECT
+                        t.nome AS nome,
+                        count(c.id) AS total
+                    FROM chamado c
+                    LEFT JOIN tecnico t
+                    ON c.tecnico_id = t.id
+                    GROUP BY t.nome
+                    """,
+            nativeQuery = true
+    )
+    List<ChamadoPorTecnicoProjection> chamadoPorTecnico();
 }

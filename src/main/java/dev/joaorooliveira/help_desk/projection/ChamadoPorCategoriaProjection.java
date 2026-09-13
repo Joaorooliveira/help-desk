@@ -5,6 +5,6 @@ import java.math.BigDecimal;
 public interface ChamadoPorCategoriaProjection {
 
     String getCategoria();
-    BigDecimal total();
+    Long total();
 
 }

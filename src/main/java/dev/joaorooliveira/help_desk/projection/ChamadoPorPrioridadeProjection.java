@@ -8,5 +8,5 @@ public interface ChamadoPorPrioridadeProjection {
 
     PrioridadeTipo getPrioridade();
 
-    BigDecimal getTotal();
+    Long getTotal();
 }

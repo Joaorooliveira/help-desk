@@ -7,6 +7,6 @@ import java.math.BigDecimal;
 public interface ChamadoPorStatusProjection {
 
     StatusTipo status();
-    BigDecimal total();
+    Long total();
 
 }
