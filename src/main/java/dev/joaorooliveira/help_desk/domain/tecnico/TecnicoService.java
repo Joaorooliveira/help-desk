@@ -26,7 +26,7 @@ public class TecnicoService {
 
     @Transactional
     public TecnicoResponseDTO salvarTecnico(TecnicoRequestDTO tecnicoRequestDTO) {
-        if(chamadoRepository.existsByEmail(tecnicoRequestDTO.email())){
+        if(tecnicoRepository.existsByEmail(tecnicoRequestDTO.email())){
             throw new RegraNegocioException("Ja existe um tecnico com esse email");
         }
         Tecnico tecnico = tecnicoRepository.save(tecnicoRequestDTO.toEntity());

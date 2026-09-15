@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 
 public interface ChamadoPorStatusProjection {
 
-    StatusTipo status();
-    Long total();
+    StatusTipo getStatus();
+    Long getTotal();
 
 }

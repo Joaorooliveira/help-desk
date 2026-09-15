@@ -13,23 +13,23 @@ public class RelatorioChamadoService {
         this.relatorioChamadoRepository = relatorioChamadoRepository;
     }
 
-    public List<ChamadoPorPrioridadeProjection> buscarChamadoPorPrioridade(){
+    public List<ChamadoPorPrioridadeProjection> buscarChamadosPorPrioridade(){
         return relatorioChamadoRepository.chamadoPorPrioridade();
     }
 
-    public List<ChamadoPorStatusProjection> buscarChamadoPorStatus(){
+    public List<ChamadoPorStatusProjection> buscarChamadosPorStatus(){
         return relatorioChamadoRepository.chamadoPorStatus();
     }
 
-    public List<ChamadoPorCategoriaProjection> buscarChamadoPorCategoria(){
+    public List<ChamadoPorCategoriaProjection> buscarChamadosPorCategoria(){
         return relatorioChamadoRepository.chamadoPorCategoria();
     }
 
-    public List<ChamadoPorTecnicoProjection> buscarChamadoPorTecnico(){
+    public List<ChamadoPorTecnicoProjection> buscarChamadosPorTecnico(){
         return relatorioChamadoRepository.chamadoPorTecnico();
     }
 
-    public List<ChamadoPorSetorProjection> buscarChamadoPorSetor(){
+    public List<ChamadoPorSetorProjection> buscarChamadosPorSetor(){
         return relatorioChamadoRepository.chamadoPorSetor();
     }
 }
